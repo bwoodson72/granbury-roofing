@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope, Inter } from "next/font/google";
+import { BASE_URL } from "@/lib/seo";
 import "./globals.css";
 import SiteHeader from "@/components/layout/SiteHeader";
 import SiteFooter from "@/components/layout/SiteFooter";
@@ -17,12 +18,17 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(BASE_URL),
   title: {
     default: "Granbury Peak Roofing & Restoration",
     template: "%s | Granbury Peak Roofing & Restoration",
   },
   description:
     "Expert roofing, storm damage restoration, and exterior services in Granbury, TX and surrounding areas.",
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
