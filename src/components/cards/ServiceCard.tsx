@@ -25,7 +25,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
-          <div className="w-full h-full bg-gradient-to-br from-brand-navy to-brand-navy-dark flex items-center justify-center">
+          <div className="w-full h-full bg-linear-to-br from-brand-navy to-brand-navy-dark flex items-center justify-center">
             <span className="text-[6rem] font-bold text-white/10 select-none leading-none">
               {service.title.charAt(0)}
             </span>
@@ -35,7 +35,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
       </div>
 
       {/* Content section */}
-      <div className="p-6 flex flex-col gap-4">
+      <div className="p-6 flex flex-col gap-4 min-h-62.5">
         <h3 className="text-xl font-bold text-brand-navy group-hover:text-brand-orange transition-colors duration-200">
           {service.title}
         </h3>
