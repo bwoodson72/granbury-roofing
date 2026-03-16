@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, type FieldErrors } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CheckCircle2, AlertCircle, Loader2 } from 'lucide-react'
 import { contactFormSchema, type ContactFormData } from '@/lib/validation/contact-form'
@@ -9,6 +9,21 @@ import type { ContactFormResponse } from '@/types/forms'
 import { company } from '@/content/company'
 import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
+
+interface FieldErrorProps {
+  name: keyof ContactFormData
+  errors: FieldErrors<ContactFormData>
+}
+
+function FieldError({ name, errors }: FieldErrorProps) {
+  if (!errors[name]) return null
+  return (
+    <p className="mt-1.5 text-xs text-destructive flex items-center gap-1">
+      <AlertCircle size={12} />
+      {errors[name]?.message as string}
+    </p>
+  )
+}
 
 export default function ContactForm() {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
@@ -73,14 +88,6 @@ export default function ContactForm() {
 
   const labelClass = 'block text-sm font-semibold text-foreground mb-1.5'
 
-  const FieldError = ({ name }: { name: keyof ContactFormData }) =>
-    errors[name] ? (
-      <p className="mt-1.5 text-xs text-destructive flex items-center gap-1">
-        <AlertCircle size={12} />
-        {errors[name]?.message as string}
-      </p>
-    ) : null
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
       {/* Honeypot — hidden from real users, traps bots */}
@@ -106,7 +113,7 @@ export default function ContactForm() {
             className={field('fullName')}
             placeholder="Jane Smith"
           />
-          <FieldError name="fullName" />
+          <FieldError name="fullName" errors={errors} />
         </div>
         <div>
           <label htmlFor="phone" className={labelClass}>
@@ -119,7 +126,7 @@ export default function ContactForm() {
             className={field('phone')}
             placeholder="(817) 555-0000"
           />
-          <FieldError name="phone" />
+          <FieldError name="phone" errors={errors} />
         </div>
       </div>
 
@@ -135,7 +142,7 @@ export default function ContactForm() {
           className={field('email')}
           placeholder="jane@example.com"
         />
-        <FieldError name="email" />
+        <FieldError name="email" errors={errors} />
       </div>
 
       {/* Service Needed + City */}
@@ -158,7 +165,7 @@ export default function ContactForm() {
             <option value="Gutter Installation & Replacement">Gutter Installation &amp; Replacement</option>
             <option value="Other / Not Sure">Other / Not Sure</option>
           </select>
-          <FieldError name="serviceNeeded" />
+          <FieldError name="serviceNeeded" errors={errors} />
         </div>
         <div>
           <label htmlFor="city" className={labelClass}>
@@ -171,7 +178,7 @@ export default function ContactForm() {
             className={field('city')}
             placeholder="Granbury"
           />
-          <FieldError name="city" />
+          <FieldError name="city" errors={errors} />
         </div>
       </div>
 
@@ -192,7 +199,7 @@ export default function ContactForm() {
           <option value="urgent">Urgent – Within 1–2 days</option>
           <option value="emergency">Emergency – Today</option>
         </select>
-        <FieldError name="urgency" />
+        <FieldError name="urgency" errors={errors} />
       </div>
 
       {/* Message */}
@@ -207,7 +214,7 @@ export default function ContactForm() {
           className={cn(field('message'), 'resize-none')}
           placeholder="Tell us about your roof issue, when it started, any visible damage…"
         />
-        <FieldError name="message" />
+        <FieldError name="message" errors={errors} />
       </div>
 
       {/* Consent */}
@@ -223,12 +230,12 @@ export default function ContactForm() {
           <span className="text-brand-orange">*</span>
         </label>
       </div>
-      <FieldError name="consent" />
+      <FieldError name="consent" errors={errors} />
 
       {/* API error banner */}
       {submitStatus === 'error' && (
         <div className="flex items-start gap-3 rounded-lg bg-destructive/10 border border-destructive/20 px-4 py-3">
-          <AlertCircle className="text-destructive flex-shrink-0 mt-0.5" size={16} />
+          <AlertCircle className="text-destructive shrink-0 mt-0.5" size={16} />
           <p className="text-sm text-destructive">{errorMessage}</p>
         </div>
       )}
