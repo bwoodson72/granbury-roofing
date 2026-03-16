@@ -38,14 +38,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${manrope.variable} ${inter.variable}`}>
-      <head>
-        <link
-          rel="preload"
-          as="image"
-          href="/images/services/roof-replacement.avif"
-          type="image/avif"
-        />
-      </head>
       <body className="antialiased bg-background text-foreground font-body">
         <SiteHeader />
         <main className="pt-16 min-h-screen">

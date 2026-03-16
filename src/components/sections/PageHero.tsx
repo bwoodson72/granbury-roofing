@@ -61,6 +61,7 @@ export function PageHero({
               loading="eager"
               priority
               fetchPriority="high"
+              quality={60}
               className="object-cover object-center"
               sizes="100vw"
               aria-hidden="true"
